@@ -1,4 +1,4 @@
-<? 
+<? session_start(); 
 if(isset($_POST['id'])){
     include_once ('conexao.php');
     include_once ('function.php');
