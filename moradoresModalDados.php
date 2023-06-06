@@ -2,20 +2,19 @@
 if(isset($_POST['id'])){
     include_once ('conexao.php');
     include_once ('function.php');
-    include_once ('variable.php');
     
 
     $id = preg_replace('/[^[:alnum:]_]/', '',$_POST['id']);
     $resultado = '';
 
-    $query  = "SELECT M.Nome, M.Documento, M.Email, M.Telefone, M.Ramal, M.Bloco, M.Andar, M.Apartamento, C.Nome Condominio, CASE WHEN M.Type = 1 THEN 'Morador' ELSE 'Funcionário' END Type FROM MORADORES M INNER JOIN CONDOMINIO C ON M.IDCO = C.IDCO WHERE M.IDMO = ".$id." LIMIT 1";
+    $query  = "SELECT M.Nome, M.Documento, M.Email, M.Telefone, M.Ramal, M.Bloco, M.Andar, M.Apartamento, C.Nome Empreendimento, CASE WHEN M.Type = 1 THEN 'Morador' ELSE 'Funcionário' END tipoPessoa, CASE WHEN C.Type = 1 THEN 'Condominio' ELSE 'Empresa' END tipoEmpreendimento FROM MORADORES M INNER JOIN CONDOMINIO C ON M.IDCO = C.IDCO WHERE M.IDMO = ".$id." LIMIT 1";
     $result = mysqli_query($con, $query);
     $row    = mysqli_fetch_assoc($result);
     //echo $row['Nome'];
 
     $resultado .= '<dl class="row">';
     $resultado .= '<dt class="col-sm-3">Tipo</dt>';
-    $resultado .= '<dd class="col-sm-9">'.$row['Type'].'</dd>';
+    $resultado .= '<dd class="col-sm-9">'.$row['tipoPessoa'].'</dd>';
     $resultado .= '</dl>';
     $resultado .= '<dl class="row">';
     $resultado .= '<dt class="col-sm-3">Nome</dt>';
@@ -26,8 +25,8 @@ if(isset($_POST['id'])){
     $resultado .= '<dd class="col-sm-9">'.formatCnpjCpf($row['Documento']).'</dd>';
     $resultado .= '</dl>';
     $resultado .= '<dl class="row">';
-    $resultado .= '<dt class="col-sm-3">'.$menuTypeCompany.'</dt>';
-    $resultado .= '<dd class="col-sm-9">'.$row['Condominio'].'</dd>';
+    $resultado .= '<dt class="col-sm-3">'.$row['tipoEmpreendimento'].'</dt>';
+    $resultado .= '<dd class="col-sm-9">'.$row['Empreendimento'].'</dd>';
     $resultado .= '</dl>';
     $resultado .= '<dl class="row">';
     $resultado .= '<dt class="col-sm-3">E-mail</dt>';
