@@ -1,6 +1,6 @@
 <?php
 
-$idCon = preg_replace('/[^[:alnum:]_]/', '',$_SESSION['userCon']);;
+$idCon = preg_replace('/[^[:alnum:]_]/', '',$_SESSION['userCon']);
 
 $query  = "SELECT Type, Nome, Documento FROM CONDOMINIO WHERE IDCO = ".$idCon;
 $result = mysqli_query($con, $query);
@@ -9,10 +9,18 @@ $row    = mysqli_fetch_assoc($result);
 
 if ($_SESSION['Access'] == 1){
     $menuTitle = "Administrador Portaria";
-    $menuTypeCompany = "Empreendimento";
     $menuTypePeople = "Morador/Funcionário";
     $typeLocation = "Apartamento/Sala";
-} else {
+    // 1 - Condomínio
+    // 2 - Empresa
+    if ($row['Type'] == 1){
+        $menuTypeCompany = "Condomínio";
+    } else {
+        $menuTypeCompany = "Empresa";
+    }
+} 
+
+if ($_SESSION['Access'] <> 1) {
     
     $menuTitle = $row['Nome']." ".$row['Documento'];
     $menuSubTitle = "";
