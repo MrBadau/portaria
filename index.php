@@ -45,11 +45,12 @@
                     </button>
                     <hr>
                     <div class="text-center">
-                      <? if ($_SESSION['success']){ ?>
+                      <? if (isset($_SESSION['messageError']) && isset($_SESSION['success'])) {
+                      if ($_SESSION['success']){ ?>
                         <span class="small" style="color: green;"><?=$_SESSION['messageError']?></span>
                         <? } else { ?>
                         <span class="small" style="color: red;"><?=$_SESSION['messageError']?></span>
-                        <? } $_SESSION['messageError'] = ''; ?>
+                        <? } } $_SESSION['messageError'] = ''; ?>
                     </div>
                     <div class="text-center">
                       <a class="small" href="register.php">Registre-se!</a>
