@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<? 
+<?
+ini_set('display_errors', 0);
+ini_set('session.save_path', getcwd() . '/tmp');
 session_start();
-if (!$_SESSION['userLogged']){
+if (!$_SESSION['userLogged']) {
   header('Location: index.php');
 }
 
 include_once("head_menu.php");
 include_once("conexao.php");
-    
-$sql = mysqli_query($con,"SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
+
+$sql = mysqli_query($con, "SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
 
 <body id="page-top">
 
@@ -30,12 +32,12 @@ $sql = mysqli_query($con,"SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          <? include_once("header_menu.php");?>
+          <? include_once("header_menu.php"); ?>
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">          
+        <div class="container-fluid">
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -54,16 +56,16 @@ $sql = mysqli_query($con,"SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
                     </tr>
                   </thead>
                   <tbody>
-                      <? while($dados=mysqli_fetch_assoc($sql)) {?>
- 
-                        <tr>
-                          <td><?=$dados['IDPA']?></td>
-                          <td><?=$dados['Local']?></td>
-                          <td><?=$dados['Description']?></td>
-                          <td><a href="edit_text.php?id=<?=$dados['IDPA']?>" class="btn btn-info btn-circle btn-sm"><i class="fas fa-pen"></i></a></td>
-                        </tr>
-                      <? } ?>
-                      
+                    <? while ($dados = mysqli_fetch_assoc($sql)) { ?>
+
+                      <tr>
+                        <td><?= $dados['IDPA'] ?></td>
+                        <td><?= $dados['Local'] ?></td>
+                        <td><?= $dados['Description'] ?></td>
+                        <td><a href="edit_text.php?id=<?= $dados['IDPA'] ?>" class="btn btn-info btn-circle btn-sm"><i class="fas fa-pen"></i></a></td>
+                      </tr>
+                    <? } ?>
+
                   </tbody>
                 </table>
               </div>
@@ -77,7 +79,7 @@ $sql = mysqli_query($con,"SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <? include_once("footer_menu.php");?>
+      <? include_once("footer_menu.php"); ?>
       <!-- End of Footer -->
 
     </div>
@@ -85,13 +87,13 @@ $sql = mysqli_query($con,"SELECT * FROM PAG_VARIABLES") or die("Erro"); ?>
 
   </div>
   <!--Modal-->
-  
-  
+
+
   <!-- End of Page Wrapper -->
-  <? include_once("footer_java.php");?>
-    
+  <? include_once("footer_java.php"); ?>
+
   <!-- Scroll to Top Button-->
-  
+
 
 </body>
 

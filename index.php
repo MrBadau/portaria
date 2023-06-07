@@ -1,9 +1,13 @@
-<?php session_start(); ?>
+<?php
+ini_set('display_errors', 0);
+ini_set('session.save_path', getcwd() . '/tmp');
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-    <? include_once 'head.php'; ?>
+  <? include_once 'head.php'; ?>
   <title>Login</title>
 
 </head>
@@ -45,12 +49,12 @@
                     </button>
                     <hr>
                     <div class="text-center">
-                      <? if (isset($_SESSION['messageError']) && isset($_SESSION['success'])) {
-                      if ($_SESSION['success']){ ?>
-                        <span class="small" style="color: green;"><?=$_SESSION['messageError']?></span>
-                        <? } else { ?>
-                        <span class="small" style="color: red;"><?=$_SESSION['messageError']?></span>
-                        <? } } $_SESSION['messageError'] = ''; ?>
+                      <? if ($_SESSION['success']) { ?>
+                        <span class="small" style="color: green;"><?= $_SESSION['messageError'] ?></span>
+                      <? } else { ?>
+                        <span class="small" style="color: red;"><?= $_SESSION['messageError'] ?></span>
+                      <? }
+                      $_SESSION['messageError'] = ''; ?>
                     </div>
                     <div class="text-center">
                       <a class="small" href="register.php">Registre-se!</a>

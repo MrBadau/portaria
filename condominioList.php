@@ -1,5 +1,8 @@
-<? session_start(); 
-if (!$_SESSION['userLogged']){
+<?
+ini_set('display_errors', 0);
+ini_set('session.save_path', getcwd() . '/tmp');
+session_start();
+if (!$_SESSION['userLogged']) {
   header('Location: index.php');
 } ?>
 <!DOCTYPE html>
@@ -8,8 +11,8 @@ if (!$_SESSION['userLogged']){
 <?
 include_once("head_menu.php");
 include_once("conexao.php");
-   
-$sql = mysqli_query($con,"SELECT IDCO, Nome, CASE WHEN Type = 1 THEN 'Condomínio' ELSE 'Empresa' END Type FROM CONDOMINIO") or die("Erro"); ?>
+
+$sql = mysqli_query($con, "SELECT IDCO, Nome, CASE WHEN Type = 1 THEN 'Condomínio' ELSE 'Empresa' END Type FROM CONDOMINIO") or die("Erro"); ?>
 
 <body id="page-top">
 
@@ -29,12 +32,12 @@ $sql = mysqli_query($con,"SELECT IDCO, Nome, CASE WHEN Type = 1 THEN 'Condomíni
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          <? include_once("header_menu.php");?>
+          <? include_once("header_menu.php"); ?>
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">          
+        <div class="container-fluid">
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -45,23 +48,23 @@ $sql = mysqli_query($con,"SELECT IDCO, Nome, CASE WHEN Type = 1 THEN 'Condomíni
               <div class="table-responsive">
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                   <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                      </tr>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Tipo</th>
+                    </tr>
                   </thead>
                   <tbody>
-                      <? while($dados=mysqli_fetch_assoc($sql)) {?>
- 
-                        <tr onclick="visModal(<?=$dados['IDCO']?>)" style="cursor: pointer;">
-                            <td><?=$dados['IDCO']?></td>
-                            <td><?=$dados['Nome']?></td>
-                            <td><?=$dados['Type']?></td>
-                        </tr>
-                      <? } ?>
-                      
-                      
+                    <? while ($dados = mysqli_fetch_assoc($sql)) { ?>
+
+                      <tr onclick="visModal(<?= $dados['IDCO'] ?>)" style="cursor: pointer;">
+                        <td><?= $dados['IDCO'] ?></td>
+                        <td><?= $dados['Nome'] ?></td>
+                        <td><?= $dados['Type'] ?></td>
+                      </tr>
+                    <? } ?>
+
+
                   </tbody>
                 </table>
               </div>
@@ -91,36 +94,36 @@ $sql = mysqli_query($con,"SELECT IDCO, Nome, CASE WHEN Type = 1 THEN 'Condomíni
             </div>
           </div>
         </div>
-      <!-- Modal -->
+        <!-- Modal -->
 
-      <!-- Footer -->
-      <? // include_once("footer_menu.php");?>
-      <!-- End of Footer -->
+        <!-- Footer -->
+        <? // include_once("footer_menu.php");
+        ?>
+        <!-- End of Footer -->
+
+      </div>
+      <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Page Wrapper -->
+    <? include_once("footer_java.php"); ?>
 
-  </div>
-  <!-- End of Page Wrapper -->
-  <? include_once("footer_java.php");?>
-    
-  <script>
-    //modal
-    function visModal(id){
-      //alert("chamou a função "+id);
-      //const dados = await fetch('visMorador.php?id=' +id);
-      var dados = {
-        id: id
+    <script>
+      //modal
+      function visModal(id) {
+        //alert("chamou a função "+id);
+        //const dados = await fetch('visMorador.php?id=' +id);
+        var dados = {
+          id: id
+        }
+        $.post('condominioModalDados.php', dados, function(retorna) {
+          $('#detalhes').html(retorna);
+          $('#modalMorador').modal('show');
+        });
       }
-      $.post('condominioModalDados.php', dados, function(retorna){
-        $('#detalhes').html(retorna);
-        $('#modalMorador').modal('show');
-      });
-    }
-    
-  </script>
-  <!-- Scroll to Top Button-->
-  
+    </script>
+    <!-- Scroll to Top Button-->
+
 
 </body>
 

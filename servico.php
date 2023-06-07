@@ -1,26 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
 <?
 ini_set('display_errors', 0);
 ini_set('session.save_path', getcwd() . '/tmp');
 session_start();
 if (!$_SESSION['userLogged']) {
   header('Location: index.php');
-} ?>
+}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<? include_once("head_menu.php");
+include_once("head_menu.php");
 include_once("conexao.php");
 
-$sql = mysqli_query($con, "SELECT O.IDOC, DATE_FORMAT(O.Data, '%d/%m/%Y %H:%i:%s') Data, O.Titulo, U.Name, M.Nome, OT.Type, CASE
-WHEN O.Status = 0 THEN 'Aberto'
-ELSE 'Fechado'
-END Status
-FROM OCORRENCIA O
-INNER JOIN USER U ON O.IDUR = U.IDUR
-INNER JOIN OCORRENCIA_TYPE OT ON O.IDOT = OT.IDOT
-LEFT JOIN MORADORES M ON O.IDMO = M.IDMO
-ORDER BY 1 DESC") or die("Erro"); ?>
+$sql = mysqli_query($con, "SELECT * FROM SERVICE") or die("Erro"); ?>
 
 <body id="page-top">
 
@@ -50,38 +42,32 @@ ORDER BY 1 DESC") or die("Erro"); ?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-bullhorn"></i> Ocorrências</h6>
+              <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-wrench"></i> Serviços</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped" id="Table" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Data</th>
-                      <th>Usuário</th>
                       <th>Título</th>
-                      <th>Morador</th>
-                      <th>Tipo</th>
-                      <th>Status</th>
-                      <th>#</th>
+                      <th>Ativo</th>
+                      <th>Imagem</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
                   <tbody>
                     <? while ($dados = mysqli_fetch_assoc($sql)) { ?>
 
                       <tr>
-                        <td><?= $dados['IDOC'] ?></td>
-                        <td><?= $dados['Data'] ?></td>
+                        <td><?= $dados['IDSE'] ?></td>
                         <td><?= $dados['Name'] ?></td>
-                        <td><?= $dados['Titulo'] ?></td>
-                        <td><?= $dados['Nome'] ?></td>
-                        <td><?= $dados['Type'] ?></td>
-                        <td><?= $dados['Status'] ?></td>
-                        <td><a href="ocorrenciaEdit.php?id=<?= $dados['IDOC'] ?>" class="btn btn-warning btn-circle"><i class="fas fa-eye"></i></a></td>
-
+                        <td><?= $dados['Active'] ?></td>
+                        <td><a target="_blank" href="../img/servico/<?= $dados['Image'] ?>">Ver Imagem</a></td>
+                        <td>
+                          <a href="excluir_servico.php?id=<?= $dados['IDSE'] ?>" data-confirm='Tem certeza de que deseja excluir o item selecionado?' class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
+                        </td>
                       </tr>
-
                     <? } ?>
 
 
@@ -105,18 +91,31 @@ ORDER BY 1 DESC") or die("Erro"); ?>
     <!-- End of Content Wrapper -->
 
   </div>
+  <!--Modal-->
+
+
   <!-- End of Page Wrapper -->
   <? include_once("footer_java.php"); ?>
-  <!-- Scroll to Top Button-->
+
+
   <script>
     $(document).ready(function() {
-      $('#Table').DataTable({
-        order: [
-          [0, 'desc']
-        ],
+      $('a[data-confirm]').click(function(ev) {
+        var href = $(this).attr('href');
+        if (!$('#confirm-delete').length) {
+          $('body').append('<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"><div class="modal-dialog"role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button></div><div class="modal-body"><p>Deseja excluir este serviço?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button><a class="btn btn-danger" id="dataComfirmOK">Sim</a></div></div></div></div>');
+        }
+        $('#dataComfirmOK').attr('href', href);
+        $('#confirm-delete').modal({
+          show: true
+        });
+        return false;
+
       });
     });
   </script>
+  <!-- Scroll to Top Button-->
+
 
 </body>
 

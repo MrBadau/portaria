@@ -1,12 +1,15 @@
-<? session_start(); 
-if (!$_SESSION['userLogged']){
+<?
+ini_set('display_errors', 0);
+ini_set('session.save_path', getcwd() . '/tmp');
+session_start();
+if (!$_SESSION['userLogged']) {
   header('Location: index.php');
 } ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<? 
+<?
 include_once("head_menu.php");
 include_once("conexao.php");
 include_once("variable.php");
@@ -14,14 +17,14 @@ include_once("variable.php");
 
 if ($_SESSION['Access'] == 1) {
   $condicao = "M.IDMO > 0";
-} else if ($_SESSION['Access'] == 2 OR $_SESSION['Access'] == 3) {
-  $condicao = "M.IDCO = ".$_SESSION['userCon'];
+} else if ($_SESSION['Access'] == 2 or $_SESSION['Access'] == 3) {
+  $condicao = "M.IDCO = " . $_SESSION['userCon'];
 }
-   
-$sql = mysqli_query($con,"SELECT M.IDMO, M.Nome, C.Nome Condominio, M.Bloco, M.Andar, M.Apartamento
+
+$sql = mysqli_query($con, "SELECT M.IDMO, M.Nome, C.Nome Condominio, M.Bloco, M.Andar, M.Apartamento
 FROM MORADORES M
 INNER JOIN CONDOMINIO C ON M.IDCO = C.IDCO
-WHERE ".$condicao) or die("Erro"); ?>
+WHERE " . $condicao) or die("Erro"); ?>
 
 <body id="page-top">
 
@@ -41,47 +44,47 @@ WHERE ".$condicao) or die("Erro"); ?>
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          <? include_once("header_menu.php");?>
+          <? include_once("header_menu.php"); ?>
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">          
+        <div class="container-fluid">
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-custom"><i class="fas fa-users"></i> <?=$menuTypePeople?></h6>
+              <h6 class="m-0 font-weight-bold text-custom"><i class="fas fa-users"></i> <?= $menuTypePeople ?></h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                   <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Morador(a)</th>
-                        <th>Condomínio</th>
-                        <th>Bloco</th>
-                        <th>Andar</th>
-                        <th>Apartamento</th>
-                        <th>#</th>
-                      </tr>
+                    <tr>
+                      <th>ID</th>
+                      <th>Morador(a)</th>
+                      <th>Condomínio</th>
+                      <th>Bloco</th>
+                      <th>Andar</th>
+                      <th>Apartamento</th>
+                      <th>#</th>
+                    </tr>
                   </thead>
                   <tbody>
-                      <? while($dados=mysqli_fetch_assoc($sql)) {?>
-                        
-                        <tr onclick="visMorador(<?=$dados['IDMO']?>)" style="cursor: pointer;">
-                            <td><?=$dados['IDMO']?></td>
-                            <td><?=$dados['Nome']?></td>
-                            <td><?=$dados['Condominio']?></td>
-                            <td><?=$dados['Bloco']?></td>
-                            <td><?=$dados['Andar']?></td>
-                            <td><?=$dados['Apartamento']?></td>
-                            <td><a href="moradorEdit.php?id=<?=$dados['IDMO']?>" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a></td>
-                        </tr>
-                      <? } ?>
-                      
-                      
+                    <? while ($dados = mysqli_fetch_assoc($sql)) { ?>
+
+                      <tr onclick="visMorador(<?= $dados['IDMO'] ?>)" style="cursor: pointer;">
+                        <td><?= $dados['IDMO'] ?></td>
+                        <td><?= $dados['Nome'] ?></td>
+                        <td><?= $dados['Condominio'] ?></td>
+                        <td><?= $dados['Bloco'] ?></td>
+                        <td><?= $dados['Andar'] ?></td>
+                        <td><?= $dados['Apartamento'] ?></td>
+                        <td><a href="moradorEdit.php?id=<?= $dados['IDMO'] ?>" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a></td>
+                      </tr>
+                    <? } ?>
+
+
                   </tbody>
                 </table>
               </div>
@@ -99,7 +102,7 @@ WHERE ".$condicao) or die("Erro"); ?>
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Detalhes do <?=$menuTypePeople?></h5>
+              <h5 class="modal-title" id="exampleModalLabel">Detalhes do <?= $menuTypePeople ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -112,36 +115,36 @@ WHERE ".$condicao) or die("Erro"); ?>
             </div>
           </div>
         </div>
-      <!-- Modal -->
+        <!-- Modal -->
 
-      <!-- Footer -->
-      <? // include_once("footer_menu.php");?>
-      <!-- End of Footer -->
+        <!-- Footer -->
+        <? // include_once("footer_menu.php");
+        ?>
+        <!-- End of Footer -->
+
+      </div>
+      <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Page Wrapper -->
+    <? include_once("footer_java.php"); ?>
 
-  </div>
-  <!-- End of Page Wrapper -->
-  <? include_once("footer_java.php");?>
-    
     <script>
-    //modal
-    function visMorador(id){
-      //alert("chamou a função "+id);
-      //const dados = await fetch('visMorador.php?id=' +id);
-      var dados = {
-        id: id
+      //modal
+      function visMorador(id) {
+        //alert("chamou a função "+id);
+        //const dados = await fetch('visMorador.php?id=' +id);
+        var dados = {
+          id: id
+        }
+        $.post('moradoresModalDados.php', dados, function(retorna) {
+          $('#detalhes').html(retorna);
+          $('#modalMorador').modal('show');
+        });
       }
-      $.post('moradoresModalDados.php', dados, function(retorna){
-        $('#detalhes').html(retorna);
-        $('#modalMorador').modal('show');
-      });
-    }
-    
-  </script>
-  <!-- Scroll to Top Button-->
-  
+    </script>
+    <!-- Scroll to Top Button-->
+
 
 </body>
 

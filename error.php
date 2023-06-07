@@ -1,5 +1,8 @@
-<? session_start(); 
-if (!$_SESSION['userLogged']){
+<?
+ini_set('display_errors', 0);
+ini_set('session.save_path', getcwd() . '/tmp');
+session_start();
+if (!$_SESSION['userLogged']) {
   header('Location: index.php');
 } ?>
 
@@ -27,7 +30,7 @@ if (!$_SESSION['userLogged']){
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-            <? include_once("header_menu.php");?>
+          <? include_once("header_menu.php"); ?>
         </nav>
         <!-- End of Topbar -->
 
@@ -35,7 +38,7 @@ if (!$_SESSION['userLogged']){
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 error"><?=$_GET['message'];?></h1>
+          <h1 class="h3 mb-4 error"><?= $_GET['message']; ?></h1>
 
         </div>
         <!-- /.container-fluid -->
@@ -44,7 +47,7 @@ if (!$_SESSION['userLogged']){
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <? include_once("footer_menu.php");?>
+      <? include_once("footer_menu.php"); ?>
       <!-- End of Footer -->
 
     </div>
@@ -54,7 +57,7 @@ if (!$_SESSION['userLogged']){
   <!-- End of Page Wrapper -->
 
   <!-- End of Page Wrapper -->
-  <? include_once("footer_java.php");?>
+  <? include_once("footer_java.php"); ?>
 
 </body>
 
